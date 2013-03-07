@@ -21,7 +21,7 @@ from types import ModuleType
 from livetribe.plugins import load, is_package, collect_plugin_paths, collect_plugin_modules
 
 
-sys.path.append(os.path.join(os.path.dirname(__file__), 'lib'))
+sys.path.append(os.path.join(os.path.dirname(__file__), 'data'))
 
 def test_load():
     from acme.plugins import Factory
@@ -47,4 +47,4 @@ def test_collect_plugin_paths():
 
 
 def test_package():
-    assert is_package(os.path.join(os.path.dirname(__file__), 'lib/acme'))
+    assert is_package(os.path.join(os.path.dirname(__file__), 'data/acme'))
