@@ -17,7 +17,7 @@
  under the License.
 """
 
-from codecs import open
+from io import open
 
 from setuptools import find_packages, setup
 
