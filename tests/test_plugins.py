@@ -36,7 +36,7 @@ def test_collect_plugin_modules():
         assert module not in already_seen
         assert isinstance(module, ModuleType)
         already_seen.add(module)
-        module.do(45)
+        assert module.do(45) == 'done 45'
 
 
 def test_collect_plugin_paths():

@@ -17,4 +17,4 @@
 
 class Factory(object):
     def Z(self):
-        print 'not overridden'
+        return 'not overridden'

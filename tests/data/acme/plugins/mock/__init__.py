@@ -16,4 +16,4 @@
 """
 
 def do(i):
-    print 'done', i
+    return 'done %s' % i
