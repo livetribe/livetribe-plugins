@@ -41,7 +41,7 @@ Contributing
 **LiveTribe Plugins** has a large community and
 contributions are always encouraged. Contributions can be as simple as
 minor tweaks to this documentation. To contribute, fork the project on
-`github <http://github.com/livetribe/liveribe-plugins/>`_ and send a
+`github <http://github.com/livetribe/livetribe-plugins/>`_ and send a
 pull request.
 
 About This Documentation
