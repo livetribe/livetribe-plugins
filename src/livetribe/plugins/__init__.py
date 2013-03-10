@@ -23,48 +23,73 @@ from importlib import import_module
 
 log = getLogger(__name__)
 
-def load(namespace, subclass=None, recurse=False):
-    if subclass:
-        instance = subclass()
-        instance.Z()
-    return set([])
+def collect_plugin_classes(namespace, subclasses_of=None, recurse=False):
+    if subclasses_of is not None:
+        try:
+            subclasses_of = tuple([subclass for subclass in subclasses_of])
+        except TypeError:
+            subclasses_of = (subclasses_of, )
+
+    plugin_classes = set()
+    for cls in _collect_plugin_named_attributes(namespace, recurse=recurse):
+        if isinstance(cls, type):
+            if subclasses_of is None:
+                plugin_classes.add(cls)
+            elif issubclass(cls, subclasses_of) and not cls in subclasses_of:
+                plugin_classes.add(cls)
+    return plugin_classes
 
 
-def collect_plugin_modules(namespace, recurse):
-    for filepath in collect_plugin_paths(namespace, recurse):
+def _collect_plugin_named_attributes(namespace, recurse=False):
+    named_attributes = set()
+    for module in collect_plugin_modules(namespace, recurse=recurse):
+        for attr_name in dir(module):
+            if not attr_name.startswith('_'):
+                named_attributes.add(getattr(module, attr_name))
+    return named_attributes
+
+
+def collect_plugin_modules(namespace, recurse=False, methods=None):
+    methods = methods if methods is not None else set()
+    for filepath in _collect_plugin_paths(namespace, recurse):
         path_segments = list(filepath.split(os.path.sep))
         path_segments = [p for p in path_segments if p]
         path_segments[-1] = os.path.splitext(path_segments[-1])[0]
         import_path = '.'.join(path_segments)
 
         try:
+            log.debug('Importing %s', import_path)
             module = import_module(import_path)
-        except ImportError:
+            if methods and all(getattr(module, method_name, None) is None for method_name in methods):
+                continue
+        except ImportError as ie:
+            log.warn('Problems importing %s', import_path)
+            log.debug(exc_info=1)
             module = None
 
         if module is not None:
             yield module
 
 
-def collect_plugin_paths(namespace, recurse, already_seen=None):
+def _collect_plugin_paths(namespace, recurse=False, already_seen=None):
+    log.debug('collecting plugin paths for %s%s', namespace, ', recursing modules' if recurse else '')
     already_seen = set() if already_seen is None else already_seen
 
     # Look in each location in the path
-    for path in sys.path:
+    for sys_path in sys.path:
         # Within this, we want to look for a package for the namespace
         namespace_rel_path = namespace.replace(".", os.path.sep)
-        namespace_path = os.path.join(path, namespace_rel_path)
+        namespace_path = os.path.join(sys_path, namespace_rel_path)
         if os.path.exists(namespace_path):
             for candidate in os.listdir(namespace_path):
                 candidate_path = os.path.join(namespace_path, candidate)
                 if os.path.isdir(candidate_path):
-                    if not is_package(candidate_path):
+                    if not _is_package(candidate_path):
                         continue
                     if recurse:
                         subns = '.'.join((namespace, candidate.split('.py')[0]))
-                        for path in collect_plugin_paths(subns, recurse, already_seen):
+                        for path in _collect_plugin_paths(subns, recurse, already_seen):
                             yield path
-                    base = candidate
                 else:
                     base, ext = os.path.splitext(candidate)
                     if base == '__init__' or ext != '.py':
@@ -76,5 +101,5 @@ def collect_plugin_paths(namespace, recurse, already_seen=None):
                     yield candidate_namespace
 
 
-def is_package(path):
+def _is_package(path):
     return os.path.exists(os.path.join(path, '__init__.py'))

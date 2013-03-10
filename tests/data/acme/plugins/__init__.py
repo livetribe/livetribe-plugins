@@ -17,4 +17,7 @@
 
 class Factory(object):
     def Z(self):
-        return 'not overridden'
+        return 'NOT_OVERRIDDEN'
+
+def do(i):
+    return 'acme.plugins:%s' % i

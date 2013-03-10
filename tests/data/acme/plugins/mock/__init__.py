@@ -16,4 +16,4 @@
 """
 
 def do(i):
-    return 'done %s' % i
+    return 'acme.plugins.mock:%s' % i

@@ -19,4 +19,4 @@ from acme.plugins import Factory
 
 class MockFactory(Factory):
     def work(self):
-        return 'acme.plugins.mock.factory'
+        return 'acme.plugins.mock.submodule.factory'
