@@ -41,7 +41,7 @@ setup(
     license='Apache Software License (http://www.apache.org/licenses/LICENSE-2.0)',
     author='Alan D. Cabrera',
     author_email='dev@livetribe.codehaus.org',
-    description='A simple python plugin framework.',
+    description='A simple Python plugin framework.',
     # don't ever depend on refcounting to close files anywhere else
     long_description=open('README.rst', encoding='utf-8').read(),
 

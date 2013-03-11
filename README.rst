@@ -2,7 +2,7 @@
 LiveTribe Plugins
 =================
 
-.. rubric:: LiveTribe's simple python plugin framework.
+.. rubric:: LiveTribe's simple Python plugin framework.
 
 .. image:: https://secure.travis-ci.org/maguro/livetribe-plugins.png?branch=master
    :target: http://travis-ci.org/maguro/livetribe-plugins
@@ -13,7 +13,7 @@ See `github <http://github.com/livetribe/livetribe-plugins/tree>`_ for the lates
 About
 =====
 
-The LiveTribe Plugins distribution contains a simple python plugin
+The LiveTribe Plugins distribution contains a simple Python plugin
 framework.
 
 Issues / Questions / Feedback

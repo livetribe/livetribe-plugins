@@ -58,7 +58,7 @@ LiveTribe Plugins source directory::
 
 The egg package can be found in the dist/ subdirectory. The file name will
 resemble “livetribe_plugins-1.0.0-py2.6.egg” but may have a different name
-depending on your platform and the version of python you use to compile.
+depending on your platform and the version of Python you use to compile.
 
 Copy this file to the target system and issue the following command to install the
 package::
