@@ -37,8 +37,6 @@ def test_collect_plugin_classes():
 
 
 def test_collect_plugin_modules():
-    from acme.plugins import Factory
-
     already_seen = set()
     for module in collect_plugin_modules('acme.plugins', recurse=True):
         assert module not in already_seen
