@@ -14,12 +14,11 @@
  specific language governing permissions and limitations
  under the License.
 """
-from acme.framework.factory import Factory
 
+class Factory(object):
+    def __init__(self, widget, append_widget=False):
+        self.widget = widget
+        self.append_widget = append_widget
 
-class MockFactory(Factory):
     def work(self):
-        if self.append_widget:
-            return 'acme.plugins.mock.factory:%s' % self.widget
-        else:
-            return 'acme.plugins.mock.factory'
+        raise NotImplementedError

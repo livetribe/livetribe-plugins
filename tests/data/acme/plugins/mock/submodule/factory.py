@@ -14,9 +14,12 @@
  specific language governing permissions and limitations
  under the License.
 """
-from acme.plugins import Factory
+from acme.framework.factory import Factory
 
 
 class MockFactory(Factory):
     def work(self):
-        return 'acme.plugins.mock.submodule.factory'
+        if self.append_widget:
+            return 'acme.plugins.mock.submodule.factory:%s' % self.widget
+        else:
+            return 'acme.plugins.mock.submodule.factory'

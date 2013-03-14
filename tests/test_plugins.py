@@ -18,22 +18,36 @@ import os
 import sys
 from types import ModuleType
 
-from livetribe.plugins import _is_package, _collect_plugin_paths, collect_plugin_modules, collect_plugin_classes
-
+from livetribe.plugins import collect_plugin_classes, instantiate_plugin_classes, collect_plugin_modules, _collect_plugin_paths, _is_package
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'data'))
 
 def test_collect_plugin_classes():
-    from acme.plugins import Factory
+    from acme.framework.factory import Factory
 
+    widget = 2
     results = set()
-    for plugin in collect_plugin_classes('acme.plugins', subclasses_of=Factory, recurse=True):
-        instance = plugin()
-        results.add(instance.work())
+    for plugin_class in collect_plugin_classes('acme.plugins', subclasses_of=Factory, recurse=True):
+        plugin = plugin_class(widget, append_widget=True)
+        results.add(plugin.work())
 
     assert len(results) == 2
-    assert 'acme.plugins.mock.factory' in results
-    assert 'acme.plugins.mock.submodule.factory' in results
+    assert 'acme.plugins.mock.factory:2' in results
+    assert 'acme.plugins.mock.submodule.factory:2' in results
+
+
+def test_instantiate_plugin_classes():
+    from acme.framework.factory import Factory
+
+    widget = 2
+    results = set()
+    plugin_classes = collect_plugin_classes('acme.plugins', subclasses_of=Factory, recurse=True)
+    for plugin in instantiate_plugin_classes(plugin_classes, widget, append_widget=True):
+        results.add(plugin.work())
+
+    assert len(results) == 2
+    assert 'acme.plugins.mock.factory:2' in results
+    assert 'acme.plugins.mock.submodule.factory:2' in results
 
 
 def test_collect_plugin_modules():

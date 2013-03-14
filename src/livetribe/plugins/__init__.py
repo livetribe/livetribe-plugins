@@ -23,30 +23,46 @@ from importlib import import_module
 
 log = getLogger(__name__)
 
+def instantiate_plugin_classes(plugin_classes, *args, **kwargs):
+    """A simple function to instantiate a collection of plugin classes.
+
+   Raises :class:`TypeError` if `name` is not an instance of
+   :class:`basestring` (:class:`str` in python 3). Raises
+   :class:`~pymongo.errors.InvalidName` if `name` is not a valid
+   database name.
+
+   :Parameters:
+     - `connection`: a client instance
+     - `name`: database name
+
+   .. mongodoc:: databases
+   """
+    for plugin_class in plugin_classes:
+        yield plugin_class(*args, **kwargs)
+
+
 def collect_plugin_classes(namespace, subclasses_of=None, recurse=False):
+    """
+    """
     if subclasses_of is not None:
         try:
             subclasses_of = tuple([subclass for subclass in subclasses_of])
         except TypeError:
             subclasses_of = (subclasses_of, )
 
-    plugin_classes = set()
     for cls in _collect_plugin_named_attributes(namespace, recurse=recurse):
         if isinstance(cls, type):
             if subclasses_of is None:
-                plugin_classes.add(cls)
+                yield cls
             elif issubclass(cls, subclasses_of) and not cls in subclasses_of:
-                plugin_classes.add(cls)
-    return plugin_classes
+                yield cls
 
 
 def _collect_plugin_named_attributes(namespace, recurse=False):
-    named_attributes = set()
     for module in collect_plugin_modules(namespace, recurse=recurse):
         for attr_name in dir(module):
             if not attr_name.startswith('_'):
-                named_attributes.add(getattr(module, attr_name))
-    return named_attributes
+                yield getattr(module, attr_name)
 
 
 def collect_plugin_modules(namespace, recurse=False, methods=None):

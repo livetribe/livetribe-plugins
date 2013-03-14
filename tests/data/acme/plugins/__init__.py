@@ -14,10 +14,21 @@
  specific language governing permissions and limitations
  under the License.
 """
+from acme.framework.factory import Factory
 
-class Factory(object):
-    def Z(self):
-        return 'NOT_OVERRIDDEN'
+class MockFactory(Factory):
+    """ This factory should never be picked up
+    """
+
+    def __init__(self, widget):
+        super(MockFactory, self).__init__(widget)
+        raise NotImplementedError
+
+    def work(self):
+        raise NotImplementedError
+
 
 def do(i):
-    return 'acme.plugins:%s' % i
+    """ This plugin method should never be picked up
+    """
+    raise NotImplementedError
