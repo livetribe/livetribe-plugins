@@ -1,22 +1,37 @@
-*.py[cod]
-
-# C extensions
-*.so
+*.py[co]
 
 # Packages
 *.egg
 *.egg-info
-dist
-build
-eggs
-parts
-bin
-var
-sdist
-develop-eggs
-.installed.cfg
-lib
-lib64
+*.komodo*
+*.kpf
+*.log
+*.pid
+*.pyc
+*.swp
+*.*.swp
+.*.*.swo
+bin/
+build/
+develop-eggs/
+dist/
+docs/_build
+dropin.cache
+eggs/
+include/
+lib/
+man/
+parts/
+share/
+.coverage
+.idea
+.pip_cache
+.project
+.pydevproject
+.tox
+/.settings
+/.metadata
+.Python
 
 # Installer logs
 pip-log.txt
@@ -24,12 +39,19 @@ pip-log.txt
 # Unit test / coverage reports
 .coverage
 .tox
-nosetests.xml
 
-# Translations
+#Translations
 *.mo
 
-# Mr Developer
+#Mr Developer
 .mr.developer.cfg
-.project
-.pydevproject
+
+# intellij project files
+*.ipr
+*.iml
+*.iws
+.idea
+# all target dirs
+target/
+output/
+.DS_Store
