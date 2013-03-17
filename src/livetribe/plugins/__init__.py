@@ -35,7 +35,6 @@ def instantiate_plugin_classes(plugin_classes, *args, **kwargs):
      - `connection`: a client instance
      - `name`: database name
 
-   .. mongodoc:: databases
    """
     for plugin_class in plugin_classes:
         yield plugin_class(*args, **kwargs)
