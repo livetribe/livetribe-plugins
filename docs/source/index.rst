@@ -9,7 +9,7 @@ everything you need to know to use **LiveTribe Plugins** framework.
 
 .. todo:: a list of LiveTribe Plugins's features
 
-:doc:`installation`
+:doc:`installing`
   Instructions on how to get the distribution.
 
 :doc:`tutorial`
