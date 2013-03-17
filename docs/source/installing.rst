@@ -74,8 +74,8 @@ found on the
 `github tags page <https://github.com/livetribe/livetribe-plugins/tags>`_.
 They can be installed by passing the full URL for the tag to pip::
 
-  $ pip install https://github.com/livetribe/livetribe-plugins/tarball/2.2rc1
+  $ pip install https://github.com/livetribe/livetribe-plugins/tarball/1.0.0
 
 or easy_install::
 
-  $ easy_install https://github.com/livetribe/livetribe-plugins/tarball/2.2rc1
+  $ easy_install https://github.com/livetribe/livetribe-plugins/tarball/1.0.0
