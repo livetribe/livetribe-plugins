@@ -19,17 +19,16 @@
 
 from io import open
 import subprocess
+import sys
 
 from setuptools import find_packages, setup, Command, os
-import sys
+
 
 VERSION = '1.0.0'
 
 class doc(Command):
     description = 'generate or test documentation'
-
     user_options = [('test', 't', 'run doctests instead of generating documentation')]
-
     boolean_options = ['test']
 
     def initialize_options(self):
@@ -46,10 +45,10 @@ class doc(Command):
             path = 'docs/build/%s' % VERSION
             mode = 'html'
 
-            try:
-                os.makedirs(path)
-            except OSError:
-                pass
+        try:
+            os.makedirs(path)
+        except OSError:
+            pass
 
         status = subprocess.call(['sphinx-build', '-E', '-b', mode, '-d', 'docs/build/doctrees', 'docs/source', path])
 
@@ -58,6 +57,29 @@ class doc(Command):
 
         sys.stdout.write('\nDocumentation step "%s" performed, results here:\n'
                          '   %s/\n' % (mode, path))
+
+
+class test(Command):
+    description = 'run nosetests'
+    user_options = [('verbose', 'v', 'run nosetests with -v option')]
+    boolean_options = ['verbose']
+
+    def initialize_options(self):
+        self.verbose = False
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        if self.verbose:
+            verbose = '-v'
+        else:
+            verbose = ''
+
+        status = subprocess.call(['nosetests', verbose])
+
+        if status:
+            raise RuntimeError('nosetests step failed')
 
 
 with open('requirements.txt') as f:
@@ -106,5 +128,5 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
-    cmdclass={'doc': doc},
+    cmdclass={'doc': doc, 'test': test},
 )
