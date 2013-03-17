@@ -18,8 +18,46 @@
 """
 
 from io import open
+import subprocess
 
-from setuptools import find_packages, setup
+from setuptools import find_packages, setup, Command, os
+import sys
+
+VERSION = '1.0.0'
+
+class doc(Command):
+    description = 'generate or test documentation'
+
+    user_options = [('test', 't', 'run doctests instead of generating documentation')]
+
+    boolean_options = ['test']
+
+    def initialize_options(self):
+        self.test = False
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        if self.test:
+            path = 'docs/build/doctest'
+            mode = 'doctest'
+        else:
+            path = 'docs/build/%s' % VERSION
+            mode = 'html'
+
+            try:
+                os.makedirs(path)
+            except OSError:
+                pass
+
+        status = subprocess.call(['sphinx-build', '-E', '-b', mode, '-d', 'docs/build/doctrees', 'docs/source', path])
+
+        if status:
+            raise RuntimeError('documentation step "%s" failed' % (mode,))
+
+        sys.stdout.write('\nDocumentation step "%s" performed, results here:\n'
+                         '   %s/\n' % (mode, path))
 
 
 with open('requirements.txt') as f:
@@ -36,7 +74,7 @@ tests_requires = install_requires + [
 
 setup(
     name='livetribe-plugins',
-    version='1.0.0',
+    version=VERSION,
     url='http://github.com/livetribe/livetribe-plugins/',
     license='Apache Software License (http://www.apache.org/licenses/LICENSE-2.0)',
     author='Alan D. Cabrera',
@@ -45,8 +83,8 @@ setup(
     # don't ever depend on refcounting to close files anywhere else
     long_description=open('README.rst', encoding='utf-8').read(),
 
-    namespace_packages = ['livetribe'],
-    package_dir = {'':'src'},
+    namespace_packages=['livetribe'],
+    package_dir={'': 'src'},
     packages=find_packages('src'),
 
     zip_safe=False,
@@ -67,5 +105,6 @@ setup(
         'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
         'Topic :: Software Development :: Libraries :: Python Modules'
-    ]
+    ],
+    cmdclass={'doc': doc},
 )
