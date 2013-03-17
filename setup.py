@@ -91,7 +91,7 @@ except ImportError:
     install_requires.append('importlib')
 
 tests_requires = install_requires + [
-    'nose',
+    'nose >= 1.2',
 ]
 
 setup(
