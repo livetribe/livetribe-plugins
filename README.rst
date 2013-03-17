@@ -18,6 +18,8 @@ The LiveTribe Plugins distribution contains a simple Python plugin
 framework.  It defines no classes that need to be implemented nor imposes
 arbitrary lifecycle events or special plugin information files.
 
+Inspired by Calvin Spealman's straight plugin, https://github.com/ironfroggy/straight.plugin.
+
 Issues / Questions / Feedback
 =============================
 
