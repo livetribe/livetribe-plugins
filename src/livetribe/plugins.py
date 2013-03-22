@@ -120,7 +120,7 @@ def collect_plugin_modules(namespace, methods=None, recurse=False):
                 continue
         except ImportError as ie:
             log.warn('Problems importing %s', import_path)
-            log.debug(exc_info=1)
+            log.debug('', exc_info=1)
             module = None
 
         if module is not None:
