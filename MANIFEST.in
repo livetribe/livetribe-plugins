@@ -3,5 +3,7 @@ include LICENSE.txt
 include NOTICE.txt
 include MANIFEST.in
 include requirements.txt
-recursive-include livetribe *
+recursive-include src *
+recursive-include tests *
+recursive-include docs *
 global-exclude *pyc *pyo
