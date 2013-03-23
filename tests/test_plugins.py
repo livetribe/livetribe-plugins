@@ -20,7 +20,6 @@ from types import ModuleType
 
 from livetribe.plugins import collect_plugin_classes, instantiate_plugin_classes, collect_plugin_modules, _collect_plugin_paths, _is_package
 
-sys.path.append(os.path.join(os.path.dirname(__file__), 'data'))
 
 def test_collect_plugin_classes():
     from acme.framework.factory import Factory
@@ -101,4 +100,4 @@ def test_collect_plugin_paths():
 
 
 def test_package():
-    assert _is_package(os.path.join(os.path.dirname(__file__), 'data/acme'))
+    assert _is_package(os.path.join(os.path.dirname(__file__), 'acme'))
