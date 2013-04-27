@@ -24,7 +24,7 @@ import sys
 from setuptools import find_packages, setup, Command, os
 
 
-VERSION = '1.0.0'
+VERSION = '1.0'
 
 class doc(Command):
     description = 'generate or test documentation'
